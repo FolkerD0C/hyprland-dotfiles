@@ -1,0 +1,34 @@
+#!/bin/bash
+
+SCRIPTNAME='WAYBAR_LAYOUT_LISTENER'
+source "${HOME}/.config/hypr/scripts/common-functions.sh"
+if [ hyprland_is_running = 'false' ]; then
+  debug 'Hyprland is not running, exiting'
+  exit 1
+fi
+
+active_layout=$(hyprctl --instance "${HYPRLAND_INSTANCE_SIGNATURE}" devices -j \
+  | jq '.keyboards | map(select(.main)) | .[0] | .active_keymap' | tr -d '"')
+if [ -z "${active_layout}" ]; then
+  debug 'Layout not found, exiting'
+  exit 2
+fi
+debug "Found active layout: ${active_layout}"
+
+display_layout='DEF_0'
+pattern_en_us='English (US)'
+
+case $active_layout in
+  Hungarian)
+    display_layout='HU_HU'
+    ;;
+  $pattern_en_us)
+    display_layout='EN_US'
+    ;;
+  *)
+    ;;
+esac
+
+debug "Display layout is set to ${display_layout}"
+
+echo ${display_layout}
