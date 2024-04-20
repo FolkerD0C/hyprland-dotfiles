@@ -1,0 +1,19 @@
+#!/bin/bash
+
+SCRIPTNAME='TOGGLE_WALLPAPER_CHANGING'
+source "${HOME}/.config/hypr/scripts/common-functions.sh"
+if [ hyprland_is_running = 'false' ]; then
+  debug 'Hyprland is not running, exiting'
+  exit 1
+fi
+
+if [ ! -f $HYPRPAPER_SETTER_PIDFILE ]; then
+  debug 'Pidfile not found, exiting'
+  exit 2
+fi
+
+debug "Found pidfile: ${HYPRPAPER_SETTER_PIDFILE}"
+kill -HUP $(cat ${HYPRPAPER_SETTER_PIDFILE})
+
+exit 0
+

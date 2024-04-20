@@ -1,0 +1,85 @@
+#!/bin/bash
+
+set -eo pipefail
+changing_enabled='yes'
+export SCRIPTNAME='HYPRPAPER_SETTER'
+
+source "${HOME}/.config/hypr/scripts/common-functions.sh"
+
+function sleep_more() {
+  debug "Sleeping a minute because" ${@}
+  sleep 60
+}
+
+function startup() {
+  debug 'setting pidfile'
+  if [ -f "${HYPRPAPER_SETTER_PIDFILE}" ]; then
+    debug 'Script is already running, exiting'
+    exit 0
+  fi
+  echo ${$} > ${HYPRPAPER_SETTER_PIDFILE}
+  debug 'Sleeping on startup for 5 seconds'
+  sleep 5
+}
+
+function toggle_changing() {
+  debug 'TOGGLE: current state is' ${changing_enabled}
+  if [ "${changing_enabled}" = 'yes' ]; then
+    debug 'disabling change'
+    changing_enabled='no'
+  else
+    debug 'enabling change'
+    changing_enabled='yes'
+  fi
+}
+
+function cleanup() {
+  debug 'Cleaning up...'
+  rm -f "${HYPRPAPER_SETTER_PIDFILE}" 2>/dev/null || true
+  exit 1
+}
+
+debug 'STARTING hyprpaper setter'
+
+if [ hyprland_is_running = 'false' ]; then
+  debug 'Hyprland is not running, exiting'
+  cleanup
+fi
+
+MY_DP_MONITORS=($( hyprctl --instance "${HYPRLAND_INSTANCE_SIGNATURE}" monitors | grep '^Monitor' | cut -d' ' -f2 ))
+debug "Display monitors are: ${MY_DP_MONITORS[@]}"
+
+WALLPAPERS_DIR=
+if [[ -n HYPRPAPER_SETTER_WALLPAPER_DIR ]]; then
+  WALLPAPERS_DIR=${HYPRPAPER_SETTER_WALLPAPER_DIR}
+  debug "Wallpapers directory is set to ${WALLPAPERS_DIR}"
+else
+  debug 'Wallpaper dir not set, exiting with error'
+  exit 1
+fi
+
+startup
+
+trap cleanup 0 2 3 6 9 14 15
+
+while :; do
+  if [ hyprland_is_running = 'false' ]; then
+    debug 'Hyprland is not running, exiting'
+    cleanup
+  fi
+  trap toggle_changing 1
+  if [ "${changing_enabled}" = 'yes' ]; then
+    debug 'Wallpaper setting is enabled'
+    for display_monitor in "${MY_DP_MONITORS[@]}"; do
+      wallpaper_candidate=$(find $WALLPAPERS_DIR | grep -iE 'png$|jpg$|jpeg$|webp$' | shuf | head -n 1)
+      debug "Wallpaper for ${display_monitor} is going to be set to ${wallpaper_candidate}"
+      hyprctl --instance "${HYPRLAND_INSTANCE_SIGNATURE}" hyprpaper preload $wallpaper_candidate || sleep_more 'Preloading wallpaper failed'
+      hyprctl --instance "${HYPRLAND_INSTANCE_SIGNATURE}" hyprpaper wallpaper "${display_monitor},${wallpaper_candidate}" || sleep_more 'Setting wallpaper failed'
+      hyprctl --instance "${HYPRLAND_INSTANCE_SIGNATURE}" hyprpaper unload $wallpaper_candidate || sleep_more 'Unloading wallpaper failed'
+      sleep 1
+    done
+    sleep 8
+  else
+    sleep 1
+  fi
+done
