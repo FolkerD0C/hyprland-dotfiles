@@ -21,19 +21,19 @@
 
     "custom/power-menu": {
         "format": "",
-        "on-click": "/home/leviadmin/.config/rofi/powermenu.sh"
+        "on-click": "~/.config/rofi/powermenu.sh"
     },
 
     "custom/launcher": {
         "format": "󰩦",
-        "on-click": "/home/leviadmin/.config/rofi/launcher.sh"
+        "on-click": "~/.config/rofi/launcher.sh"
     },
 
     "hyprland/workspaces": {
         "disable-scroll": true,
-        "format": "{icon}",
+        "format": "<span size=\"125%\">{icon} <sup>{windows}</sup></span>",
         "persistent-workspaces": {
-            "*": 7,
+            "*": 5
         },
         "format-icons": {
             "1": "󰎦",
@@ -49,6 +49,19 @@
             "urgent": "",
             "focused": "",
             "default": ""
+        },
+        "window-rewrite-default": "󱗝",
+        "window-rewrite": {
+            "class<firefox>": "󰈹",
+            "class<kitty>": "󰆍",
+            "class<code>": "󰨞",
+            "class<mpv>": "",
+            "class<steam>":"󰓓",
+            "class<.*dolphin>":"󰷏",
+            "title<.*youtube.*>": "󰗃",
+            "title<.*github.*>": "󰊤",
+            "title<.*spotify.*>": "󰓇",
+            "title<.*netflix.*>": "󰝆"
         },
         "on-scroll-up": "hyprctl dispatch workspace e+1",
         "on-scroll-down": "hyprctl dispatch workspace e-1"
@@ -100,8 +113,8 @@
     },
 
     "custom/keyboard-layout": {
-        "exec": "/home/leviadmin/.config/hypr/scripts/waybar-keyboard-layout-switched",
-        "on-click": "/home/leviadmin/.config/hypr/scripts/switch-keyboard-layout",
+        "exec": "~/.config/hypr/scripts/waybar-keyboard-layout-switched",
+        "on-click": "~/.config/hypr/scripts/switch-keyboard-layout",
         "signal": 1
     },
 
@@ -112,6 +125,6 @@
     "tray": {
         "icon-size": 13,
         "spacing": 10
-    },
+    }
 }
 

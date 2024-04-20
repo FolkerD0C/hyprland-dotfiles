@@ -48,14 +48,14 @@
 }
 
 #workspaces {
-    color: @secondary;
-    border: 3px solid @foreground;
+    color: @primary;
+    border: 3px solid @primary;
     border-radius: 100px 10px 100px 10px;
     padding: 0px 25px 0px 25px;
 }
 
 #workspaces button {
-    color: @secondary;
+    color: @primary;
     padding-left: 1.0rem;
     padding-right: 1.0rem;
     font-size: 24px;
