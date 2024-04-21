@@ -15,6 +15,7 @@
     "modules-center": ["hyprland/window"],
     "modules-right": [
       "battery",
+      "temperature",
       "backlight",
       "pulseaudio",
       "custom/keyboard-layout",

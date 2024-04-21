@@ -12,6 +12,13 @@
         "format-icons": ["", "", "", "", ""]
     },
 
+    "temperature": {
+        "thermal-zone": 1,
+        "format": " {temperatureC}󰔄 {icon}",
+        "format-icons": ["", "", ""],
+        "critical-threshold": 70
+    },
+
     "backlight": {
         "device": "intel_backlight",
         "format": "{icon} {percent}%",
