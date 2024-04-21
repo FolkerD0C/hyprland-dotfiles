@@ -47,6 +47,7 @@
 }
 
 #tray {
+    background-color: @color-background;
     margin-right: 10px;
 }
 
