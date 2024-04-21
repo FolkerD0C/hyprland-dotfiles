@@ -10,7 +10,8 @@
     "modules-left": [
       "custom/power-menu",
       "custom/launcher",
-      "hyprland/workspaces"
+      "hyprland/workspaces",
+      "custom/special-workspace-box"
     ],
     "modules-center": ["hyprland/window"],
     "modules-right": [

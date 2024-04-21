@@ -45,5 +45,12 @@
         },
         "on-scroll-up": "hyprctl dispatch workspace e+1",
         "on-scroll-down": "hyprctl dispatch workspace e-1"
+    },
+
+    "custom/special-workspace-box": {
+        "format": "{}",
+        "exec": "~/.config/hypr/scripts/waybar-special-workspace-displayname",
+        "on-click": "~/.config/hypr/scripts/waybar-special-workspace-onclick",
+        "signal": 2
     }
 }

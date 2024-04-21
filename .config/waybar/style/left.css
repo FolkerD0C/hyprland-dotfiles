@@ -2,13 +2,15 @@
 #custom-launcher,
 #workspaces,
 #workspaces button,
-#workspaces button.active {
+#workspaces button.active,
+#custom-special-workspace-box {
     color: @color-primary;
 }
 
 #custom-power-menu,
 #custom-launcher,
-#workspaces {
+#workspaces,
+#custom-special-workspace-box {
     border: 3px solid @color-primary;
 }
 
@@ -30,8 +32,9 @@
 }
 
 #workspaces {
-    border-radius: 100px 10px 100px 10px;
-    padding: 0px 20px 0px 20px;
+    border-radius: 100px 0px 0px 10px;
+    border-right: 0px;
+    padding: 0px 0px 0px 20px;
 }
 
 #workspaces button {
@@ -42,4 +45,11 @@
 #workspaces button.active {
     background: linear-gradient(alpha(@color-primary, 0.75), alpha(@color-background, 0.0) 60%);
     border-radius: 10px 10px 0px 0px;
+}
+
+#custom-special-workspace-box {
+    border-radius: 0px 10px 100px 0px;
+    border-left: 0px;
+    padding-left: 10px;
+    padding-right: 25px;
 }

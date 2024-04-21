@@ -1,0 +1,27 @@
+#!/bin/bash
+
+set -eo pipefail
+export SCRIPTNAME='EVENT_HANDLER'
+
+source "${HOME}/.config/hypr/scripts/common-functions.sh"
+if [ hyprland_is_running = 'false' ]; then
+  debug 'Hyprland is not running, exiting'
+  exit 1
+fi
+
+function handle_event() {
+  local -r __event=${1}
+  case ${__event} in
+    activespecial*)
+      pkill -RTMIN+2 waybar
+      ;;
+    *)
+      ;;
+  esac
+}
+
+socat - "UNIX-CONNECT:/tmp/hypr/${HYPRLAND_INSTANCE_SIGNATURE}/.socket2.sock" \
+  | while read -r line; do handle_event "${line}"; done
+
+debug 'Event stream has ended, exiting'
+exit 0
