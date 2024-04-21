@@ -15,7 +15,7 @@
     "temperature": {
         "thermal-zone": 1,
         "format": " {temperatureC}󰔄 {icon}",
-        "format-icons": ["", "", ""],
+        "format-icons": ["", "", "", "", ""],
         "critical-threshold": 70
     },
 
@@ -31,7 +31,7 @@
     "pulseaudio": {
         "format": "{icon} {volume}%",
         "tooltip": false,
-        "format-muted": " Muted",
+        "format-muted": "󰝟 Muted",
         "on-click": "pactl set-sink-mute @DEFAULT_SINK@ toggle",
         "on-scroll-up": "pactl set-sink-volume @DEFAULT_SINK@ +5%",
         "on-scroll-down": "pactl set-sink-volume @DEFAULT_SINK@ -5%",
@@ -43,7 +43,7 @@
             "phone": "",
             "portable": "",
             "car": "",
-            "default": ["", "", ""]
+            "default": ["󰕿", "󰖀", "󰕾"]
         }
     },
 
