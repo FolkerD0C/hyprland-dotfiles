@@ -1,4 +1,4 @@
-HYPRPAPER_SETTER_PIDFILE="/var/run/user/${UID}/hyprpaper_setter.pid"
+HYPRPAPER_SETTER_PIDFILE="/var/run/user/${UID}/hyprpaper_setter_${HYPRLAND_INSTANCE_SIGNATURE}.pid"
 
 function debug() {
   [ -n ${HYPRLAND_USERSCRIPTS_DEBUG} ] && echo "[${SCRIPTNAME}]:> {[ ${@} ]}" 1>&2
@@ -8,8 +8,9 @@ function debug() {
 }
 
 function hyprland_is_running() {
-  if [ -z "$(hyprctl instances)" ]; then
-    return 1
+  if [ -z "$(hyprctl instances | grep ${HYPRLAND_INSTANCE_SIGNATURE})" ]; then
+    echo 'false'
+    return
   fi
-  return 0
+  echo 'true'
 }
