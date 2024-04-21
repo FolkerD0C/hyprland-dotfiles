@@ -1,0 +1,44 @@
+#custom-power-menu,
+#custom-launcher,
+#workspaces,
+#workspaces button,
+#workspaces button.active {
+    color: @color-primary;
+}
+
+#custom-power-menu,
+#custom-launcher,
+#workspaces {
+    border: 3px solid @color-primary;
+}
+
+#custom-power-menu,
+#custom-launcher {
+    background-color: @color-background;
+}
+
+#custom-power-menu {
+    border-radius: 100px 0px 0px 10px;
+    margin-left: 10px;
+    padding: 0px 20px 0px 25px;
+}
+
+#custom-launcher {
+    border-left: 0px;
+    border-radius: 0px 10px 100px 0px;
+    padding: 0px 30px 0px 20px;
+}
+
+#workspaces {
+    border-radius: 100px 10px 100px 10px;
+    padding: 0px 20px 0px 20px;
+}
+
+#workspaces button {
+    padding-left: 0.7rem;
+    padding-right: 0.7rem;
+}
+
+#workspaces button.active {
+    background: radial-gradient(closest-corner ellipse, @color-background 50%, @color-secondary);
+}

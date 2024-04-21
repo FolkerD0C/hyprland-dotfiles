@@ -2,6 +2,11 @@
     "layer": "bottom",
     "position": "top",
     "mode": "dock",
+    "reload_style_on_change": true,
+    "include": [
+        "~/.config/waybar/configuration/left.json",
+        "~/.config/waybar/configuration/right.json"
+    ],
     "modules-left": [
       "custom/power-menu",
       "custom/launcher",
@@ -19,112 +24,8 @@
     "fixed-center": true,
     "spacing": 0,
 
-    "custom/power-menu": {
-        "format": "",
-        "on-click": "~/.config/rofi/powermenu.sh"
-    },
-
-    "custom/launcher": {
-        "format": "󰩦",
-        "on-click": "~/.config/rofi/launcher.sh"
-    },
-
-    "hyprland/workspaces": {
-        "disable-scroll": true,
-        "format": "<span size=\"125%\">{icon} <sup>{windows}</sup></span>",
-        "persistent-workspaces": {
-            "*": 5
-        },
-        "format-icons": {
-            "1": "󰎦",
-            "2": "󰎩",
-            "3": "󰎬",
-            "4": "󰎮",
-            "5": "󰎰",
-            "6": "󰎵",
-            "7": "󰎸",
-            "8": "󰎻",
-            "9": "󰎾",
-            "10": "󰽾",
-            "urgent": "",
-            "focused": "",
-            "default": ""
-        },
-        "window-rewrite-default": "󱗝",
-        "window-rewrite": {
-            "class<firefox>": "󰈹",
-            "class<kitty>": "󰆍",
-            "class<code>": "󰨞",
-            "class<mpv>": "",
-            "class<steam>":"󰓓",
-            "class<.*dolphin>":"󰷏",
-            "title<.*youtube.*>": "󰗃",
-            "title<.*github.*>": "󰊤",
-            "title<.*spotify.*>": "󰓇",
-            "title<.*netflix.*>": "󰝆"
-        },
-        "on-scroll-up": "hyprctl dispatch workspace e+1",
-        "on-scroll-down": "hyprctl dispatch workspace e-1"
-    },
-
     "window": {
         "format": "{}"
-    },
-
-    "battery": {
-        "states": {
-            "good": 95,
-            "warning": 30,
-            "critical": 20
-        },
-        "format": "{icon}  {capacity}%",
-        "format-charging": "  {capacity}%",
-        "format-plugged": "  {capacity}%",
-        "format-alt": "{icon} {time}",
-        "format-icons": ["", "", "", "", ""]
-    },
-
-    "backlight": {
-        "device": "intel_backlight",
-        "format": "{icon} {percent}%",
-        "format-icons": ["󱩎 ", "󱩏 ", "󱩐 ", "󱩑 ", "󱩒 ", "󱩓 ", "󱩔 ", "󱩕 ", "󱩖 ", "󰛨 "],
-        "on-scroll-up": "brightnessctl set +2%",
-        "on-scroll-down": "brightnessctl set 2%-",
-        "min-length": 6
-    },
-
-    "pulseaudio": {
-        "format": "{icon} {volume}%",
-        "tooltip": false,
-        "format-muted": " Muted",
-        "on-click": "pactl set-sink-mute @DEFAULT_SINK@ toggle",
-        "on-scroll-up": "pactl set-sink-volume @DEFAULT_SINK@ +5%",
-        "on-scroll-down": "pactl set-sink-volume @DEFAULT_SINK@ -5%",
-        "scroll-step": 5,
-        "format-icons": {
-            "headphone": "",
-            "hands-free": "",
-            "headset": "",
-            "phone": "",
-            "portable": "",
-            "car": "",
-            "default": ["", "", ""]
-        }
-    },
-
-    "custom/keyboard-layout": {
-        "exec": "~/.config/hypr/scripts/waybar-keyboard-layout-switched",
-        "on-click": "~/.config/hypr/scripts/switch-keyboard-layout",
-        "signal": 1
-    },
-
-    "clock": {
-        "format": "{:%H:%M} "
-    },
-
-    "tray": {
-        "icon-size": 13,
-        "spacing": 10
     }
 }
 

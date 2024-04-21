@@ -1,0 +1,57 @@
+#battery,
+#backlight,
+#pulseaudio,
+#custom-keyboard-layout,
+#clock,
+#tray {
+    border: 3px solid @color-primary;
+    color: @color-primary;
+}
+
+/* STATUS GROUPING START */
+#battery,
+#backlight,
+#pulseaudio,
+#custom-keyboard-layout {
+    border-right: 0;
+}
+
+#backlight,
+#pulseaudio,
+#custom-keyboard-layout,
+#clock {
+    border-left: 1px solid @color-primary;
+}
+
+#battery {
+    border-radius: 10px 0px 0px 100px;
+    padding: 0px 10px 0px 25px;
+}
+
+#backlight,
+#pulseaudio,
+#custom-keyboard-layout {
+    padding: 0px 10px 0px 10px;
+}
+
+#clock {
+    border-radius: 0px 100px 10px 0px;
+    padding: 0px 25px 0px 10px;
+}
+/* STATUS GROUPING END */
+
+#tray,
+#tray menu {
+    border-radius: 10px 80px 10px 80px;
+    padding: 0px 25px 0px 25px;
+}
+
+#tray {
+    margin-right: 10px;
+}
+
+#tray menu {
+    background-color: alpha(@color-background, 0.90);
+    border: 2px solid @color-primary;
+    border-radius: 5px 50px 5px 50px;
+}

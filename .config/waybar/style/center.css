@@ -1,0 +1,13 @@
+#window {
+    border-radius: 70px 70px 10px 10px;
+    border: 3px solid @color-primary;
+    color: @color-primary;
+    padding-left: 2.0rem;
+    padding-right: 2.0rem;
+}
+
+window#waybar.empty #window {
+    border: 0px;
+    color: alpha(#000000, 0);
+    background-color: alpha(#000000, 0);
+}
