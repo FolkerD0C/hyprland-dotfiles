@@ -41,7 +41,7 @@ function cleanup() {
 
 debug 'STARTING hyprpaper setter'
 
-if [ hyprland_is_running = 'false' ]; then
+if [ "$(hyprland_is_running)" = 'false' ]; then
   debug 'Hyprland is not running, exiting'
   cleanup
 fi

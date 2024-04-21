@@ -4,7 +4,7 @@ set -eo pipefail
 export SCRIPTNAME='LAYOUT_SWITCHER'
 
 source "${HOME}/.config/hypr/scripts/common-functions.sh"
-if [ hyprland_is_running = 'false' ]; then
+if [ "$(hyprland_is_running)" = 'false' ]; then
   debug 'Hyprland is not running, exiting'
   exit 1
 fi

@@ -9,9 +9,9 @@ fi
 
 debug 'Someone requested a run'
 if hyprctl -j activewindow | jq '.workspace | .name' | tr -d '"' | grep special 1>&2; then
-  echo '<span size="125%">󰬚</span>'
+  echo '<span size="125%">󰰢</span>'
 else
-  echo '<span size="125%">󰰡</span>'
+  echo '<span size="125%">󰰣</span>'
 fi
 
 exit 0
