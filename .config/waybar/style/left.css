@@ -40,5 +40,5 @@
 }
 
 #workspaces button.active {
-    background: radial-gradient(closest-corner ellipse, @color-background 50%, @color-secondary);
+    background: linear-gradient(alpha(@color-primary, 0.75), alpha(@color-background, 0.10) 60%, alpha(@color-secondary, 0.10))
 }
