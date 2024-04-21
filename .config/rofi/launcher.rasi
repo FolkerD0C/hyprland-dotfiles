@@ -1,0 +1,181 @@
+/**
+ *
+ * Original Author : Aditya Shakya (adi1090x)
+ * Github : @adi1090x
+ *
+ **/
+
+/*****----- Configuration -----*****/
+configuration {
+	modi:                       "drun";
+    show-icons:                 true;
+    display-drun:               "";
+	drun-display-format:        "{name}";
+}
+
+/*****----- Global Properties -----*****/
+@import                          "colors.rasi"
+
+* {
+    background-color:            @background;
+    screen-margin:               20px 20px;
+    box-spacing:                 20px;
+    icon-size:                   48px;
+    element-padding:             15px;
+    element-spacing:             5px;
+    border-radius1:              50px 5px 50px 5px;
+    border-radius2:              30px 3px 30px 3px;
+
+    font:                        "MononokiNerdFontMono 14";
+}
+
+/*****----- Main Window -----*****/
+window {
+    fullscreen:                  false;
+    width:                       800px;
+    height:                      568px;
+    anchor:                      west;
+    location:                    northwest;
+
+    enabled:                     true;
+    margin:                      15px 0px 0px 15px;
+    padding:                     0px;
+    border:                      3px solid;
+    border-radius:               @border-radius1;
+    border-color:                @primary;
+    background-color:            @background-transparent;
+    cursor:                      "default";
+}
+
+/*****----- Main Box -----*****/
+mainbox {
+    enabled:                     true;
+    spacing:                     @box-spacing;
+    margin:                      @screen-margin;
+    padding:                     0px;
+    border:                      0px solid;
+    border-radius:               0px;
+    border-color:                @primary;
+    background-color:            transparent;
+    children:                    [ "inputbar", "listview" ];
+}
+
+/*****----- Inputbar -----*****/
+inputbar {
+    enabled:                     true;
+    spacing:                     10px;
+    margin:                      0px 0px 0px 0px;
+    padding:                     15px;
+    border:                      0px solid;
+    border-radius:               @border-radius2;
+    background-color:            @primary;
+    text-color:                  @background;
+    children:                    [ "prompt", "entry" ];
+}
+
+prompt {
+    enabled:                     true;
+    background-color:            inherit;
+    text-color:                  inherit;
+}
+textbox-prompt-colon {
+    enabled:                     true;
+    expand:                      false;
+    str:                         "::";
+    background-color:            inherit;
+    text-color:                  inherit;
+}
+entry {
+    enabled:                     true;
+    background-color:            inherit;
+    text-color:                  inherit;
+    cursor:                      text;
+    placeholder:                 "Search...";
+    placeholder-color:           inherit;
+}
+
+/*****----- Listview -----*****/
+listview {
+    enabled:                     true;
+    columns:                     5;
+    lines:                       4;
+    cycle:                       true;
+    dynamic:                     true;
+    scrollbar:                   true;
+    layout:                      vertical;
+    reverse:                     false;
+    fixed-height:                true;
+    fixed-columns:               true;
+    
+    spacing:                     @element-spacing;
+    margin:                      0px;
+    padding:                     0px;
+    border:                      0px solid;
+    border-radius:               @border-radius2;
+    background-color:            @background-semitransparent;
+    text-color:                  @secondary;
+    cursor:                      "default";
+}
+scrollbar {
+    handle-width:                25px ;
+    handle-color:                @primary;
+    border-radius:               2px 2px 50px 2px;
+    background-color:            @background;
+    margin:                      0px 0px 0px 10px;
+}
+
+/*****----- Elements -----*****/
+element {
+    enabled:                     true;
+    spacing:                     @element-spacing;
+    margin:                      0px;
+    padding:                     @element-padding;
+    border:                      0px solid;
+    border-radius:               30px 30px 30px 30px;
+    border-color:                @selected;
+    background-color:            transparent;
+    text-color:                  @primary;
+    orientation:                 vertical;
+    cursor:                      pointer;
+}
+element normal.normal {
+    background-color:            transparent;
+    text-color:                  @primary;
+}
+element selected.normal {
+    border:                      0px solid;
+    border-radius:               @border-radius2;
+    background-color:            @background-alt;
+    text-color:                  @primary;
+}
+element-icon {
+    background-color:            transparent;
+    text-color:                  inherit;
+    size:                        @icon-size;
+    cursor:                      inherit;
+}
+element-text {
+    background-color:            transparent;
+    text-color:                  inherit;
+    highlight:                   inherit;
+    cursor:                      inherit;
+    vertical-align:              0.5;
+    horizontal-align:            0.5;
+}
+
+/*****----- Message -----*****/
+error-message {
+    padding:                     150px;
+    border:                      0px solid;
+    border-radius:               0px;
+    border-color:                @selected;
+    background-color:            @background-semitransparent;
+    text-color:                  @primary;
+}
+textbox {
+    background-color:            @background-semitransparent;
+    text-color:                  @primary;
+    vertical-align:              0.5;
+    horizontal-align:            0.0;
+    highlight:                   none;
+}
