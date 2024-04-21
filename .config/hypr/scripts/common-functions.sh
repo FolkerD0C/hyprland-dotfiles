@@ -8,9 +8,8 @@ function debug() {
 }
 
 function hyprland_is_running() {
-  if ! hyprctl instances 1>&2; then
-    echo false
-    return
+  if [ -z "$(hyprctl instances)" ]; then
+    return 1
   fi
-  echo true
+  return 0
 }

@@ -1,6 +1,6 @@
 #!/bin/bash
 
-HYPRFETCH_FILE='/tmp/hyprland-neofetch-result_${$}'
+HYPRFETCH_FILE="/tmp/hypr/hyprland-neofetch-result_${$}"
 sleep 3
 
 while hyprctl --instance "${HYPRLAND_INSTANCE_SIGNATURE}" instances &>/dev/null; do
