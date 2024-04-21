@@ -1,0 +1,12 @@
+#!/bin/bash
+
+HYPRFETCH_FILE='/tmp/hyprland-neofetch-result_${$}'
+sleep 3
+
+while hyprctl --instance "${HYPRLAND_INSTANCE_SIGNATURE}" instances &>/dev/null; do
+  macchina --theme 'Hyprland' > "${HYPRFETCH_FILE}"
+  sleep 3
+  clear
+  cat "${HYPRFETCH_FILE}"
+done
+exit 0

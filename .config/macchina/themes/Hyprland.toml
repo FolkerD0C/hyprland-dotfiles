@@ -1,0 +1,57 @@
+# Hydrogen
+
+spacing         = 1
+padding         = 0
+separator       = ">"
+key_color       = "Cyan"
+separator_color = "White"
+
+[palette]
+type = "Full"
+visible = false
+
+[bar]
+glyph           = "ߋ"
+symbol_open     = '['
+symbol_close    = ']'
+hide_delimiters = true
+visible         = true
+
+[box]
+title           = "Hyprland is Awesome"
+border          = "plain"
+visible         = true
+
+[box.inner_margin]
+x               = 0
+y               = 0
+
+[custom_ascii]
+path            = "~/.config/macchina/ascii/hyprland.ascii"
+
+[randomize]
+key_color       = false
+separator_color = false
+
+[keys]
+host            = "Hst"
+kernel          = "Krnl"
+battery         = "Bttry"
+os              = "OS"
+de              = "DE"
+wm              = "WM"
+distro          = "Dstr"
+terminal        = "Trmnl"
+shell           = "Shll"
+packages        = "Pckgs"
+uptime          = "Uptme"
+memory          = "Mmry"
+machine         = "Mchn"
+local_ip        = "LclIP"
+backlight       = "Brght"
+resolution      = "Rsltn"
+cpu_load        = "CPULd"
+cpu             = "CPU"
+gpu             = "GPU"
+disk_space      = "DskSp"
+
