@@ -1,4 +1,6 @@
 HYPRPAPER_SETTER_PIDFILE="/var/run/user/${UID}/hyprpaper_setter_${HYPRLAND_INSTANCE_SIGNATURE}.pid"
+WAYBAR_SW_NAMED_PIPE="/tmp/hypr/waybar_sw_${HYPRLAND_INSTANCE_SIGNATURE}"
+WAYBAR_SW_RUNFILE="/tmp/hypr/waybar-swdn-${HYPRLAND_INSTANCE_SIGNATURE}.runfile"
 
 function debug() {
   [ -n ${HYPRLAND_USERSCRIPTS_DEBUG} ] && echo "[${SCRIPTNAME}]:> {[ ${@} ]}" 1>&2

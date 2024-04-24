@@ -7,11 +7,25 @@ if [ "$(hyprland_is_running)" = 'false' ]; then
   exit 1
 fi
 
-debug 'Someone requested a run'
-if hyprctl -j activewindow | jq '.workspace | .name' | tr -d '"' | grep special 1>&2; then
+runner_id=${RANDOM}
+
+debug "[${runner_id}]: Someone requested a run"
+if [ ! -f "${WAYBAR_SW_RUNFILE}" ]; then
+  debug "[${runner_id}]: Runfile does not exist, creating it and exiting"
+  touch ${WAYBAR_SW_RUNFILE}
+  echo '<span size="125%">󰰣</span>'
+  exit 0
+fi
+
+line_active_special=$(cat ${WAYBAR_SW_NAMED_PIPE})
+special_worksapce_name=$(echo ${line_active_special} | tail -n 1 | sed -r -e 's/activespecial>>(.*)/\1/' | cut -d, -f1)
+if [ -n "${special_worksapce_name}" ]; then
+  echo ${special_worksapce_name} | cut -d: -f2 > ${WAYBAR_SW_RUNFILE}
   echo '<span size="125%">󰰢</span>'
 else
+  echo -n '' > ${WAYBAR_SW_RUNFILE}
   echo '<span size="125%">󰰣</span>'
 fi
 
+debug "[${runner_id}]: Exiting"
 exit 0

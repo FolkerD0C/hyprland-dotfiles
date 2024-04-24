@@ -50,6 +50,7 @@
     "custom/special-workspace-box": {
         "format": "{}",
         "exec": "~/.config/hypr/scripts/waybar-special-workspace-displayname",
+        "exec-on-event": false,
         "on-click": "~/.config/hypr/scripts/waybar-special-workspace-onclick",
         "signal": 2
     }

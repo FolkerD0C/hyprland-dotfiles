@@ -7,18 +7,17 @@ if [ "$(hyprland_is_running)" = 'false' ]; then
   exit 1
 fi
 
-debug 'Someone requested a run'
-special_workspace_full_name=$(hyprctl --instance "${HYPRLAND_INSTANCE_SIGNATURE}" -j activewindow \
-  | jq '.workspace | .name' | tr -d '"' | grep special)
-if [ -n "${special_workspace_full_name}" ]; then
-  debug "Found special workspace: ${special_workspace_full_name}"
-  swname="$(echo ${special_workspace_full_name} | cut -d':' -f2)"
-  hyprctl --instance "${HYPRLAND_INSTANCE_SIGNATURE}" dispatch togglespecialworkspace "${swname}"
+runner_id=${RANDOM}
+
+debug "[${runner_id}]: Someone requested a run"
+special_workspace_name=$(cat ${WAYBAR_SW_RUNFILE})
+if [ -n "${special_workspace_name}" ]; then
+  swname="$(echo ${special_workspace_name} | cut -d':' -f2)"
+  hyprctl --instance "${HYPRLAND_INSTANCE_SIGNATURE}" dispatch togglespecialworkspace "${special_workspace_name}"
 else
-  debug "No special workspace, opening STATUS"
+  debug "[${runner_id}]:" "No special workspace, opening STATUS"
   hyprctl --instance "${HYPRLAND_INSTANCE_SIGNATURE}" dispatch togglespecialworkspace 'status'
 fi
 
-pkill -RTMIN+2 waybar
-
+debug "[${runner_id}]: Exiting"
 exit 0
