@@ -26,7 +26,7 @@ configuration {
     border-radius1:              50px 5px 50px 5px;
     border-radius2:              30px 3px 30px 3px;
 
-    font:                        "MononokiNerdFontMono 14";
+    font:                        "JetBrainsMono Nerd Font Mono 12";
 }
 
 /*****----- Main Window -----*****/
