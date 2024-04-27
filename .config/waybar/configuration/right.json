@@ -48,7 +48,7 @@
     },
 
     "custom/keyboard-layout": {
-        "exec": "~/.config/hypr/scripts/waybar-keyboard-layout-switched",
+        "exec": "~/.config/hypr/scripts/waybar/keyboard-layout-switched",
         "on-click": "~/.config/hypr/scripts/switch-keyboard-layout",
         "signal": 1
     },
