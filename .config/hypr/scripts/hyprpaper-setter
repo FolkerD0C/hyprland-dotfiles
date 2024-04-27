@@ -18,8 +18,8 @@ function startup() {
     exit 0
   fi
   echo ${$} > ${HYPRPAPER_SETTER_PIDFILE}
-  debug 'Sleeping on startup for 5 seconds'
-  sleep 5
+  debug 'Sleeping on startup for 2 seconds'
+  sleep 2
 }
 
 function toggle_changing() {
@@ -46,7 +46,7 @@ if [ "$(hyprland_is_running)" = 'false' ]; then
   cleanup
 fi
 
-MY_DP_MONITORS=($( hyprctl --instance "${HYPRLAND_INSTANCE_SIGNATURE}" monitors | grep '^Monitor' | cut -d' ' -f2 ))
+MY_DP_MONITORS=($( hyprctl -j --instance "${HYPRLAND_INSTANCE_SIGNATURE}" monitors | jq -r '.[] | .name' ))
 debug "Display monitors are: ${MY_DP_MONITORS[@]}"
 
 WALLPAPERS_DIR=
@@ -61,13 +61,13 @@ fi
 startup
 
 trap cleanup 0 2 3 6 9 14 15
+trap toggle_changing 1
 
 while :; do
   if [ "$(hyprland_is_running)" = 'false' ]; then
     debug 'Hyprland is not running, exiting'
     cleanup
   fi
-  trap toggle_changing 1
   if [ "${changing_enabled}" = 'yes' ]; then
     debug 'Wallpaper setting is enabled'
     for display_monitor in "${MY_DP_MONITORS[@]}"; do

@@ -10,7 +10,7 @@ if [ "$(hyprland_is_running)" = 'false' ]; then
 fi
 
 active_keyboard=$(hyprctl --instance "${HYPRLAND_INSTANCE}" devices -j \
-  | jq '.keyboards | map(select(.main)) | .[0] | .name' | tr -d '\"')
+  | jq -r '.keyboards | map(select(.main)) | .[0] | .name')
 if [ -z ${active_keyboard} ]; then
   debug 'Keyboard not found, exiting'
   exit 2

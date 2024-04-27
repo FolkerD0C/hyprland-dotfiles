@@ -8,7 +8,7 @@ if [ "$(hyprland_is_running)" = 'false' ]; then
 fi
 
 active_layout=$(hyprctl --instance "${HYPRLAND_INSTANCE_SIGNATURE}" devices -j \
-  | jq '.keyboards | map(select(.main)) | .[0] | .active_keymap' | tr -d '"')
+  | jq -r '.keyboards | map(select(.main)) | .[0] | .active_keymap')
 if [ -z "${active_layout}" ]; then
   debug 'Layout not found, exiting'
   exit 2
