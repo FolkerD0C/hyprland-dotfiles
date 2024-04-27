@@ -5,7 +5,7 @@
             "warning": 30,
             "critical": 20
         },
-        "format": "{icon}  {capacity}%",
+        "format": "{icon} {capacity}%",
         "format-charging": "  {capacity}%",
         "format-plugged": "  {capacity}%",
         "format-alt": "{icon} {time}",
@@ -48,13 +48,14 @@
     },
 
     "custom/keyboard-layout": {
+        "format": "󰌌 {}",
         "exec": "~/.config/hypr/scripts/waybar/keyboard-layout-switched",
         "on-click": "~/.config/hypr/scripts/switch-keyboard-layout",
         "signal": 1
     },
 
     "clock": {
-        "format": "{:%H:%M} "
+        "format": " {:%H:%M}"
     },
 
     "tray": {
