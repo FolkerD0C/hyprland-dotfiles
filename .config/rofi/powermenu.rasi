@@ -1,0 +1,128 @@
+/**
+ *
+ * Original Author : Aditya Shakya (adi1090x)
+ * Github : @adi1090x
+ *
+ **/
+
+/*****----- Configuration -----*****/
+configuration {
+    show-icons:                 false;
+}
+
+/*****----- Global Properties -----*****/
+@import                          "colors.rasi"
+
+* {
+    background-color:            @background;
+    screen-margin:               20px 20px;
+    box-spacing:                 20px;
+    element-padding:             15px;
+    element-spacing:             5px;
+    border-radius1:              50px 5px 50px 5px;
+    border-radius2:              30px 3px 30px 3px;
+
+    font:                        "MononokiNerdFontMono 14";
+}
+
+/*****----- Main Window -----*****/
+window {
+    fullscreen:                  false;
+    width:                       400px;
+    anchor:                      west;
+    location:                    northwest;
+
+    /* properties for all widgets */
+    enabled:                     true;
+    margin:                      15px 0px 0px 15px;
+    padding:                     0px;
+    border:                      3px solid;
+    border-radius:               @border-radius1;
+    border-color:                @primary;
+    background-color:            @background-transparent;
+    cursor:                      "default";
+}
+
+/*****----- Main Box -----*****/
+mainbox {
+    enabled:                     true;
+    spacing:                     10px;
+    padding:                     20px;
+    background-color:            transparent;
+    children:                    [ "message", "listview" ];
+}
+
+/*****----- Message -----*****/
+message {
+    enabled:                     true;
+    padding:                     15px;
+    background-color:            transparent;
+    text-color:                  @primary;
+}
+textbox {
+    background-color:            inherit;
+    text-color:                  inherit;
+    vertical-align:              0.5;
+    horizontal-align:            0.0;
+    placeholder-color:           @foreground;
+    blink:                       true;
+    markup:                      true;
+}
+error-message {
+    padding:                     10px;
+    border:                      0px solid;
+    border-radius:               0px;
+    border-color:                @selected;
+    background-color:            @background;
+    text-color:                  @foreground;
+}
+
+/*****----- Listview -----*****/
+listview {
+    enabled:                     true;
+    columns:                     1;
+    lines:                       6;
+    cycle:                       true;
+    dynamic:                     true;
+    scrollbar:                   false;
+    layout:                      vertical;
+    reverse:                     false;
+    fixed-height:                true;
+    fixed-columns:               true;
+    
+    spacing:                     5px;
+    margin:                      0px;
+    padding:                     0px;
+    border:                      0px solid;
+    border-radius:               0px;
+    border-color:                @selected;
+    background-color:            transparent;
+    text-color:                  @foreground;
+    cursor:                      "default";
+}
+
+/*****----- Elements -----*****/
+element {
+    enabled:                     true;
+    spacing:                     0px;
+    margin:                      0px;
+    padding:                     10px 15px;
+    border:                      0px solid;
+    border-radius:               10px;
+    border-color:                @selected;
+    background-color:            transparent;
+    text-color:                  @foreground;
+    cursor:                      pointer;
+}
+element-text {
+    background-color:            transparent;
+    text-color:                  inherit;
+    cursor:                      inherit;
+    vertical-align:              0.5;
+    horizontal-align:            0.0;
+}
+element selected.normal {
+    border-radius:               @border-radius2;
+    background-color:            @selected;
+    text-color:                  @background;
+}

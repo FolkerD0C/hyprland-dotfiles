@@ -1,0 +1,14 @@
+* {
+  primary:                          #1AFFFF;
+  secondary:                        #61AFEF;
+  foreground:                       #DDDDDD;
+  active:                           #DD0000;
+  secondary-transparent:            #DDDDDDBB;
+  handle-colour:                    #88888888;
+  background:                       #000000;
+  background-semitransparent:       #000000BB;
+  background-transparent:           #00000088;
+  background-alt:                   #DB1AFF55;
+  background-alt-np:                #DB1AFF;
+  selected:                         #61AFEFFF;
+}
