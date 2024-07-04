@@ -41,7 +41,8 @@
             "title<.*youtube.*>": "󰗃",
             "title<.*github.*>": "󰊤",
             "title<.*spotify.*>": "󰓇",
-            "title<.*netflix.*>": "󰝆"
+            "title<.*netflix.*>": "󰝆",
+            "title<.*minecraft.*>": "󰍳"
         },
         "on-scroll-up": "hyprctl dispatch workspace e+1",
         "on-scroll-down": "hyprctl dispatch workspace e-1"

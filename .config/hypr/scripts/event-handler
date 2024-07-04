@@ -1,6 +1,4 @@
 #!/bin/bash
-
-set -eo pipefail
 export SCRIPTNAME='EVENT_HANDLER'
 
 source "${HOME}/.config/hypr/scripts/common-functions.sh"
@@ -23,7 +21,7 @@ function handle_event() {
   esac
 }
 
-socat - "UNIX-CONNECT:/tmp/hypr/${HYPRLAND_INSTANCE_SIGNATURE}/.socket2.sock" \
+socat - "UNIX-CONNECT:${XDG_RUNTIME_DIR}/hypr/${HYPRLAND_INSTANCE_SIGNATURE}/.socket2.sock" \
   | while read -r line; do handle_event "${line}"; done
 
 debug 'Event stream has ended, exiting'

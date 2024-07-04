@@ -9,6 +9,8 @@ if [ "$(hyprland_is_running)" = 'false' ]; then
   exit 1
 fi
 
+mkdir -p /tmp/hypr
+
 # Getting rid of hyprpaper setter
 if [ -f "${HYPRPAPER_SETTER_PIDFILE}" ]; then
   debug 'Killing hyprpaper-setter'
