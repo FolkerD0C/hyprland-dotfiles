@@ -24,7 +24,7 @@ async def btop_special_workspace():
     if not btop_sw_exists:
         logging.info("Starting special workspace %r", BTOP_SW_NAME)
         dispatch_exec_resp = await async_command_send(
-            f'dispatch exec "[workspace special:{BTOP_SW_NAME} silent] kitty btop"',
+            f'dispatch exec [workspace special:{BTOP_SW_NAME} silent] kitty btop',
             return_json=False,
         )
         logging.log(
