@@ -50,9 +50,9 @@
 
     "custom/special-workspace-box": {
         "format": "{}",
-        "exec": "~/.config/hypr/scripts/waybar/special-workspace-displayname",
+        "exec": "~/.config/hypr/scripts/trigger-py-hypr-wrapper --special-workspace-displayname",
         "exec-on-event": false,
-        "on-click": "~/.config/hypr/scripts/waybar/special-workspace-onclick",
+        "on-click": "~/.config/hypr/scripts/trigger-py-hypr-wrapper --special-workspace-button-onclick",
         "signal": 2
     }
 }

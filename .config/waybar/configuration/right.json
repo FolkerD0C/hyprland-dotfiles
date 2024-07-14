@@ -49,8 +49,8 @@
 
     "custom/keyboard-layout": {
         "format": "󰌌 {}",
-        "exec": "~/.config/hypr/scripts/waybar/keyboard-layout-switched",
-        "on-click": "~/.config/hypr/scripts/switch-keyboard-layout",
+        "exec": "~/.config/hypr/scripts/trigger-py-hypr-wrapper --keyboard-layout-switched",
+        "on-click": "~/.config/hypr/scripts/trigger-py-hypr-wrapper --switch-keyboard-layout",
         "signal": 1
     },
 
