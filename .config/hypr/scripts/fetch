@@ -1,12 +1,7 @@
 #!/bin/bash
-
-HYPRFETCH_FILE="/tmp/hypr/hyprland-neofetch-result_${$}"
-sleep 3
-
-while hyprctl --instance "${HYPRLAND_INSTANCE_SIGNATURE}" instances &>/dev/null; do
-  macchina --theme 'Hyprland' > "${HYPRFETCH_FILE}"
+clear
+while :; do
+  fastfetch --config "${HOME}/.config/fastfetch/config.jsonc" && tput cup 0 0
   sleep 3
-  clear
-  cat "${HYPRFETCH_FILE}"
 done
 exit 0
