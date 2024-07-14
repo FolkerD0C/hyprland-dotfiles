@@ -19,14 +19,15 @@
     }
   },
   "modules": [
+    "break",
     {
       "type": "custom",
-      "format": "╭──────────────────────────────────╮",
+      "format": " ╭─────────────────────────────────╮",
       "outputColor": "green" 
     },
     {
       "type": "custom",
-      "format": "│                                  ╰",
+      "format": "╭╯                                 ╰",
       "outputColor": "green"
     },
     {
@@ -98,12 +99,12 @@
     },
     {
       "type": "custom",
-      "format": "│                                  ╭",
+      "format": "╰╮                                 ╭",
       "outputColor": "blue"
     },
     {
       "type": "custom",
-      "format": "╰──────────────────────────────────╯",
+      "format": " ╰─────────────────────────────────╯",
       "outputColor": "blue" 
     }
   ]
