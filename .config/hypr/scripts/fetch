@@ -1,7 +1,11 @@
 #!/bin/bash
-clear
+
+clear && tput civis
+
 while :; do
-  fastfetch --config "${HOME}/.config/fastfetch/config.jsonc" && tput cup 0 0
-  sleep 3
+  tput cup 0 0 && fastfetch --config "${HOME}/.config/fastfetch/config.jsonc" | sed -e '/^\s*$/d'
+  sleep 5
 done
+
+tput cnorm
 exit 0
