@@ -1,0 +1,100 @@
+#!/usr/bin/env python
+import logging
+from argparse import ArgumentParser, Namespace
+from sys import exit as sys_exit
+from typing import Dict
+from uuid import uuid4
+
+from local_ipc.sender import send_request
+from local_objects.triggerable_action import TriggerableAction
+from local_utilities.constants import PACKAGE_NAME
+from local_utilities.local_logging import logger_setup
+from local_utilities.mappings import create_triggerable_actions
+from local_utilities.paths import PY_HYPR_WRAPPER_TRIGGER_LOG
+
+
+def parse_arguments(triggerable_actions: Dict[str, TriggerableAction]) -> Namespace:
+    argument_parser: ArgumentParser = ArgumentParser(
+        prog=PACKAGE_NAME,
+        usage="trigger [FLAG]",
+        description="Triggers the py-hypr-wrapper daemon with a selected action.",
+        epilog="Only one flag is allowed (except for debug flags).",
+        add_help=True,
+    )
+    for triggerable_action in triggerable_actions.values():
+        if triggerable_action.short_argname is None:
+            argument_parser.add_argument(
+                triggerable_action.long_argname,
+                help=triggerable_action.description,
+                action="store_const",
+                const=triggerable_action,
+            )
+        else:
+            argument_parser.add_argument(
+                triggerable_action.long_argname,
+                triggerable_action.short_argname,
+                help=triggerable_action.description,
+                action="store_const",
+                const=triggerable_action,
+            )
+    argument_parser.add_argument(
+        "--debug", help="Enables debug mode", action="store_true"
+    )
+    return argument_parser.parse_args()
+
+
+def setup() -> Namespace:
+    triggerable_actions = create_triggerable_actions()
+    parsed_arguments = parse_arguments(triggerable_actions)
+    logger_setup(
+        logfile=PY_HYPR_WRAPPER_TRIGGER_LOG,
+        handlers=["rotating_file"],
+        debug_mode=parsed_arguments.debug,
+    )
+    logging.info("Logger has been initialized, arguments have been parsed")
+    return parsed_arguments
+
+
+def select_action(parsed_arguments: Namespace) -> TriggerableAction:
+    action_count = 0
+    return_candidate: TriggerableAction | None = None
+    parsed_args_dict = vars(parsed_arguments)
+    del parsed_args_dict["debug"]
+    for action in parsed_args_dict.values():
+        if action is not None:
+            action_count += 1
+            return_candidate = action
+        if action_count > 1:
+            raise RuntimeError("Only 1 action is allowed")
+    if return_candidate is not None:
+        return return_candidate
+    raise RuntimeError("No action specified")
+
+
+def trigger_action(action: TriggerableAction, action_parameters: dict = {}) -> bool:
+    logging.debug("Sending request: %r", action.action_id)
+    response: dict = {}
+    request_failed: bool = False
+    try:
+        response = send_request(str(uuid4()), action.action_id, action_parameters)
+    except Exception as exc:
+        logging.exception("Caught an exception: %r", repr(exc), stack_info=True)
+        request_failed = True
+    if request_failed:
+        return False
+    logging.debug("Request succeeded")
+    if "printable" in response and response["printable"] and "result" in response:
+        print(response["result"].replace("\\n", "\n"))
+    return True
+
+
+def main():
+    parsed_arguments = setup()
+    action_to_trigger = select_action(parsed_arguments)
+    exit_ok = trigger_action(action_to_trigger)
+    logging.info("Trigger has ended, exiting")
+    sys_exit(0 if exit_ok else 1)
+
+
+if __name__ == "__main__":
+    main()

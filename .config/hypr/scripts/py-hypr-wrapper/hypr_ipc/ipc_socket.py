@@ -1,11 +1,10 @@
 import asyncio
 import json
-import logging
-import os
 import socket
-from pathlib import Path
 
-from constants import TRACE_LVL
+from local_utilities.constants import LOGGING_TRACE_LEVEL
+from local_utilities.local_logging import HYPR_IPC_LOGGER
+from local_utilities.paths import HYPRLAND_EVENT_SOCKET, HYPRLAND_IPC_SOCKET
 
 
 class InvalidCommand(Exception): ...
@@ -15,16 +14,9 @@ class UnknownRequest(Exception): ...
 
 
 def command_send(cmd: str, return_json=True, check_ok=False):
-    logging.log(TRACE_LVL, "Executing %r", cmd)
+    HYPR_IPC_LOGGER.log(LOGGING_TRACE_LEVEL, "Executing %r", cmd)
     with socket.socket(socket.AF_UNIX, socket.SOCK_STREAM) as sock:
-        sock.connect(
-            Path(
-                os.getenv("XDG_RUNTIME_DIR"),
-                "hypr",
-                os.getenv("HYPRLAND_INSTANCE_SIGNATURE"),
-                ".socket.sock",
-            )
-        )
+        sock.connect(HYPRLAND_IPC_SOCKET)
         if return_json:
             cmd = f"[j]/{cmd}"
         sock.send(cmd.encode())
@@ -53,15 +45,8 @@ def command_send(cmd: str, return_json=True, check_ok=False):
 
 
 async def async_command_send(cmd: str, return_json=True):
-    logging.log(TRACE_LVL, "Executing %r", cmd)
-    reader, writer = await asyncio.open_unix_connection(
-        Path(
-            os.getenv("XDG_RUNTIME_DIR"),
-            "hypr",
-            os.getenv("HYPRLAND_INSTANCE_SIGNATURE"),
-            ".socket.sock",
-        )
-    )
+    HYPR_IPC_LOGGER.log(LOGGING_TRACE_LEVEL, "Executing %r", cmd)
+    reader, writer = await asyncio.open_unix_connection(HYPRLAND_IPC_SOCKET)
     if return_json:
         cmd = f"[j]/{cmd}"
     writer.write(cmd.encode())
@@ -87,14 +72,7 @@ async def async_command_send(cmd: str, return_json=True):
 
 class HyprEventListener:
     async def start(self):
-        reader, _ = await asyncio.open_unix_connection(
-            Path(
-                os.getenv("XDG_RUNTIME_DIR"),
-                "hypr",
-                os.getenv("HYPRLAND_INSTANCE_SIGNATURE"),
-                ".socket2.sock",
-            )
-        )
+        reader, _ = await asyncio.open_unix_connection(HYPRLAND_EVENT_SOCKET)
         yield "connect"
 
         buffer = b""

@@ -1,13 +1,14 @@
 import asyncio
-import logging
-from io import BytesIO, TextIOWrapper
-from pathlib import Path
 import random
+
+# from io import BytesIO, TextIOWrapper
+from pathlib import Path
 from uuid import UUID, uuid4
 
-from constants import TRACE_LVL
-from helpers import logged, logged_async
-from hyprsocket import async_command_send
+from hypr_ipc.ipc_socket import async_command_send
+from local_utilities.constants import LOGGING_TRACE_LEVEL
+from local_utilities.local_logging import LOCAL_ACTIONS_LOGGER
+from local_utilities.wrappers import logged, logged_async
 
 # DUMMY_STDOUT_STREAM: TextIOWrapper = TextIOWrapper(BytesIO())
 # DUMMY_STDERR_STREAM: TextIOWrapper = TextIOWrapper(BytesIO())
@@ -63,7 +64,7 @@ class HyprPaperManager:
     def __init__(
         self, wallpaper_directory: Path, wallpaper_changing_enabled: bool = True
     ) -> None:
-        logging.debug(
+        LOCAL_ACTIONS_LOGGER.debug(
             "Creating %r object with wallpaper_directory=%r and wallpaper_changing_enabled=%r",
             type(self).__name__,
             str(wallpaper_directory),
@@ -81,7 +82,7 @@ class HyprPaperManager:
 
     @wallpaper_directory.setter
     def wallpaper_directory(self, new_wallpaper_directory: Path) -> None:
-        logging.debug(
+        LOCAL_ACTIONS_LOGGER.debug(
             "Wallpaper directory of %r object (%r) is going to be changed from %r to %r.",
             type(self).__name__,
             str(self.__id),
@@ -95,8 +96,8 @@ class HyprPaperManager:
         return self.__current_wallpapers
 
     @logged_async
-    async def set_wallpapers(self, _: list, __: dict):
-        logging.debug(
+    async def set_wallpapers(self, *_: list, **__: dict):
+        LOCAL_ACTIONS_LOGGER.debug(
             "%r[%r]: Wallpaper changing enabled is %r",
             type(self).__name__,
             str(self.__id),
@@ -126,8 +127,8 @@ class HyprPaperManager:
                     monitor in self.__current_wallpapers
                     and self.__current_wallpapers[monitor] == wallpaper_candidate
                 ):
-                    logging.log(
-                        TRACE_LVL,
+                    LOCAL_ACTIONS_LOGGER.log(
+                        LOGGING_TRACE_LEVEL,
                         "%r[%r]: Wallpaper would remain the same (%r) for %r, because of weak randomness",
                         type(self).__name__,
                         str(self.__id),
@@ -136,7 +137,7 @@ class HyprPaperManager:
                     )
                     continue
                 found_wallpaper_candidate = True
-                logging.debug(
+                LOCAL_ACTIONS_LOGGER.debug(
                     "%r[%r]: Wallpaper for %r is going to be set to %r",
                     type(self).__name__,
                     str(self.__id),
@@ -148,12 +149,14 @@ class HyprPaperManager:
                 if monitor in self.__previous_wallpapers:
                     await hyprpaper_unload(self.__previous_wallpapers[monitor])
                 if monitor in self.__current_wallpapers:
-                    self.__previous_wallpapers[monitor] = self.__current_wallpapers[monitor]
+                    self.__previous_wallpapers[monitor] = self.__current_wallpapers[
+                        monitor
+                    ]
                 self.__current_wallpapers[monitor] = wallpaper_candidate
 
     @logged
-    def toggle_wallpaper_changing(self, *_):
-        logging.info(
+    def toggle_wallpaper_changing(self, **_):
+        LOCAL_ACTIONS_LOGGER.info(
             "%r[%r]: Toggling wallpaper changing from %r",
             type(self).__name__,
             str(self.__id),

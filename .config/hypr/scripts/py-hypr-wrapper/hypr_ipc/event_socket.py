@@ -1,13 +1,14 @@
 import asyncio
-import logging
+from typing import Dict
 
-from helpers import logged, logged_async
-from hyprsocket import HyprEventListener
+from hypr_ipc.ipc_socket import HyprEventListener
+from local_utilities.local_logging import HYPR_IPC_LOGGER
+from local_utilities.wrappers import logged, logged_async
 
 
 class HyprEvents:
     def __init__(self):
-        self.__events: dict = {}
+        self.__events: Dict[str, list] = {}
         self.__listener: HyprEventListener | None = None
 
     @logged_async
@@ -27,7 +28,7 @@ class HyprEvents:
             self.__events[event].append(callback)
         else:
             self.__events[event] = [callback]
-        logging.info("Current events registered are %r", self.__events)
+        HYPR_IPC_LOGGER.info("Current events registered are %r", self.__events)
 
     def remove_handle(self, event: str, callback: callable):
         if self.__events.get(event):
