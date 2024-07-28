@@ -1,0 +1,48 @@
+#!/bin/bash
+
+function install_venv() {
+  local -r __venv_path="${1}"
+  local -r __requirements_txt="${2}"
+
+  python -m venv "${__venv_path}" || return 200
+  . "${__venv_path}/bin/activate"
+  type python3 | grep "${__venv_path}" || return 201
+  python3 -m pip install --upgrade pip
+  python3 -m pip install -r "${2}" || return 202
+}
+
+function notify_user() {
+  local -r __message="${1}"
+  local -r __is_critical="${2:-}"
+
+  local __NOTIFY_FLAGS="--expire-time=5000"
+  if [[ -n ${__is_critical} ]]; then
+    __NOTIFY_FLAGS="--urgency critical"
+  fi
+
+  notify-send ${__NOTIFY_FLAGS} "${__message}"
+}
+
+PY_HYPR_WRAPPER_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
+VENV_PATH="${PY_HYPR_WRAPPER_DIR}/.venv"
+VENV_ACTIVATE_SCRIPT="${VENV_PATH}/bin/activate"
+PIP_REQUIREMENTS="${PY_HYPR_WRAPPER_DIR}/requirements.txt"
+
+if [[ ! -f ${VENV_ACTIVATE_SCRIPT} ]]; then
+  echo 'Installing virtualenv for py-hypr-wrapper'
+  set -xv
+  install_venv "${VENV_PATH}" "${PIP_REQUIREMENTS}" 2>&1 | tee "${PY_HYPR_WRAPPER_DIR}/install_venv_$(date +%s).log"
+  install_result=${?}
+  notify_message="Reboot needed"
+  if [[ ! ${install_result} = 0 ]]; then
+    notify_message="py-hypr-wrapper venv install failed, see logfile in scriptsdir"
+  fi
+  notify_user "${notify_message}" 'crit'
+  exit ${install_result}
+fi
+
+DAEMON_FLAGS="$([[ -v ${PY_HYPR_WRAPPER_DAEMON_DEBUG} ]] && echo -n '--debug' || echo -n '')"
+
+. "${VENV_ACTIVATE_SCRIPT}"
+notify_user "Starting py-hypr-wrapper"
+python3 "${PY_HYPR_WRAPPER_DIR}/serve.py" ${DAEMON_FLAGS} &

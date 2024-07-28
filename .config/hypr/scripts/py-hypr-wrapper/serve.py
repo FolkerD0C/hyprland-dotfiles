@@ -1,4 +1,3 @@
-#!/usr/bin/env python
 import asyncio
 import logging
 from os import environ as environment_variables
