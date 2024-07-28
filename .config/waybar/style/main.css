@@ -5,6 +5,14 @@
     background-color: transparent;
 }
 
+tooltip {
+    border-radius: 5px 30px 5px 30px;
+    border: 2px solid @color-primary;
+    background: linear-gradient(alpha(@color-secondary, 0.75) 10%, alpha(@color-background, 0.0));
+    background-color: @color-background;
+    color: @color-primary;
+}
+
 #custom-power-menu,
 #custom-launcher,
 #workspaces,

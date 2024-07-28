@@ -50,23 +50,23 @@ async def keyboard_layout_switched(**_):
     LOCAL_ACTIONS_LOGGER.debug("Writing active layout to output file")
     return {
         "printable": True,
-        "result": f"{active_layout_displayname}\\n{active_layout}",
+        "result": f"{active_layout_displayname}\\nCurrent keyboard layout: {active_layout}",
     }
 
 
 @logged_async
 async def special_workspace_displayname(**_):
     displaystring: str = (
-        __ACTIVE_SPECIAL_DISPLAY_STRING
+        f"{__ACTIVE_SPECIAL_DISPLAY_STRING}\\nActive special workspace: {__current_special_workspace}"
         if __current_special_workspace
-        else __INACTIVE_SPECIAL_DISPLAY_STRING
+        else f"{__INACTIVE_SPECIAL_DISPLAY_STRING}\\nNo active special workspace"
     )
     LOCAL_ACTIONS_LOGGER.debug(
         "Got current special workspace name (if any): %r", __current_special_workspace
     )
     return {
         "printable": True,
-        "result": f"{displaystring}\\n{__current_special_workspace}",
+        "result": displaystring,
     }
 
 

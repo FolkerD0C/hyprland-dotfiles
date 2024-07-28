@@ -26,8 +26,8 @@
     "fixed-center": true,
     "spacing": 0,
 
-    "window": {
-        "format": "{}"
+    "hyprland/window": {
+        "format": "{title}"
     }
 }
 
