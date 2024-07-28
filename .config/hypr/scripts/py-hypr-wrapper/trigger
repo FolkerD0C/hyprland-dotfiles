@@ -7,7 +7,7 @@ from uuid import uuid4
 
 from local_ipc.sender import send_request
 from local_objects.triggerable_action import TriggerableAction
-from local_utilities.constants import PACKAGE_NAME
+from local_utilities.constants import LOGGING_TRACE_LEVEL, PACKAGE_NAME
 from local_utilities.local_logging import logger_setup
 from local_utilities.mappings import create_triggerable_actions
 from local_utilities.paths import PY_HYPR_WRAPPER_TRIGGER_LOG
@@ -51,7 +51,7 @@ def setup() -> Namespace:
         handlers=["rotating_file"],
         debug_mode=parsed_arguments.debug,
     )
-    logging.info("Logger has been initialized, arguments have been parsed")
+    logging.info("===Logger has been initialized===")
     return parsed_arguments
 
 
@@ -60,10 +60,14 @@ def select_action(parsed_arguments: Namespace) -> TriggerableAction:
     return_candidate: TriggerableAction | None = None
     parsed_args_dict = vars(parsed_arguments)
     del parsed_args_dict["debug"]
-    for action in parsed_args_dict.values():
-        if action is not None:
+    for action_key in parsed_args_dict:
+        logging.log(
+            LOGGING_TRACE_LEVEL, "Considering %r as a triggerable action", action_key
+        )
+        if parsed_args_dict[action_key] is not None:
+            logging.debug("<%r> should be triggered", action_key)
             action_count += 1
-            return_candidate = action
+            return_candidate = parsed_args_dict[action_key]
         if action_count > 1:
             raise RuntimeError("Only 1 action is allowed")
     if return_candidate is not None:
@@ -92,7 +96,7 @@ def main():
     parsed_arguments = setup()
     action_to_trigger = select_action(parsed_arguments)
     exit_ok = trigger_action(action_to_trigger)
-    logging.info("Trigger has ended, exiting")
+    logging.info("===Trigger has ended, exiting===")
     sys_exit(0 if exit_ok else 1)
 
 
