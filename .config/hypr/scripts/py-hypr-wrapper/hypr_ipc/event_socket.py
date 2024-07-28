@@ -1,7 +1,9 @@
 import asyncio
+import logging
 from typing import Dict
 
 from hypr_ipc.ipc_socket import HyprEventListener
+from local_utilities.constants import LOGGING_TRACE_LEVEL
 from local_utilities.local_logging import HYPR_IPC_LOGGER
 from local_utilities.wrappers import logged, logged_async
 
@@ -15,12 +17,24 @@ class HyprEvents:
     async def async_connect(self):
         self.__listener = HyprEventListener()
         async for event in self.__listener.start():
-            if ">>" in event:
-                event_name, args = event.split(">>")
-                args = args.split(",")
-                await self.emit(event_name, *args)
-            else:
-                await self.emit(event)
+            HYPR_IPC_LOGGER.log(LOGGING_TRACE_LEVEL, "Got event: %r", event)
+            try:
+                if ">>" in event:
+                    event_details = event.split(">>")
+                    event_name = event_details[0]
+                    args_str = "".join(event_details[1:])
+                    args = args_str.split(",")
+                    await self.emit(event_name, *args)
+                else:
+                    await self.emit(event)
+            except Exception as exc:
+                logging.exception(
+                    "While processing event (%r) we got an exception: %r",
+                    event,
+                    repr(exc),
+                    stack_info=True,
+                )
+                raise exc
 
     @logged
     def add_handle(self, event: str, callback: callable):
