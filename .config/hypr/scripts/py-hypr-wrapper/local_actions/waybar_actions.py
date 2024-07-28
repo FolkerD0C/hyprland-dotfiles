@@ -15,7 +15,7 @@ __current_special_workspace: str = ""
 __ACTIVE_SPECIAL_DISPLAY_STRING: str = '<span size="125%">󰰢</span>'
 __INACTIVE_SPECIAL_DISPLAY_STRING: str = '<span size="125%">󰰣</span>'
 
-__MAIN_SPECIAL_WORKSPACE_NAME: str = "ricing"
+__MAIN_SPECIAL_WORKSPACE_NAME: str = "status"
 
 
 def get_waybar_pid() -> int:
