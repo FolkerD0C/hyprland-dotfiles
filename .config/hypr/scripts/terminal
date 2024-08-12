@@ -1,0 +1,6 @@
+#!/bin/bash
+
+TERMINAL_APP=kitty
+TERMINAL_FLAGS='--title Kitty'
+
+$TERMINAL_APP $TERMINAL_FLAGS $@
