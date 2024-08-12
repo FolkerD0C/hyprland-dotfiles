@@ -27,7 +27,7 @@
 }
 
 #battery {
-    border-radius: 10px 0px 0px 100px;
+    border-radius: 100px 0px 0px 10px;
     padding: 0px 10px 0px 25px;
 }
 
@@ -39,14 +39,14 @@
 }
 
 #clock {
-    border-radius: 0px 100px 10px 0px;
+    border-radius: 0px 10px 100px 0px;
     padding: 0px 25px 0px 10px;
 }
 /* STATUS GROUPING END */
 
 #tray,
 #tray menu {
-    border-radius: 10px 80px 10px 80px;
+    border-radius: 100px 10px 100px 10px;
     padding: 0px 25px 0px 25px;
 }
 

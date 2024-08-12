@@ -1,5 +1,5 @@
 #window {
-    border-radius: 70px 70px 10px 10px;
+    border-radius: 10px 10px 100px 100px;
     border: 3px solid @color-primary;
     color: @color-primary;
     padding-left: 2.0rem;
