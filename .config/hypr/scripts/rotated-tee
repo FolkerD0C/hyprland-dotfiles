@@ -1,0 +1,35 @@
+#!/bin/bash
+
+APP="${1}"
+LOGSDIR="${HOME}/misc/logs/hypr-apps"
+LOGFILE="${LOGSDIR}/${APP}.log"
+MAX_SIZE='2097152'
+MAX_ROTATIONS='5'
+
+function rotate_logfile() {
+  filename="${1}"
+
+  [[ ! -e "${filename}" ]] && return 0 || true
+
+  block_size=$(stat -c '%B' "${filename}")
+  blocks_count=$(stat -c '%b' "${filename}")
+  filesize=$(( "${block_size}" * ${blocks_count} ))
+
+  [[ "${filesize}" -lt "${MAX_SIZE}" ]] && return 0 || true
+
+  for i in $(seq "${MAX_ROTATIONS}" -1 1); do
+    [[ -e "${filename}.${i}" ]] && mv "${filename}.${i}" "${filename}.$(( ${i} + 1 ))" || true
+  done
+
+  mv "${filename}" "${filename}.1"
+
+  [[ -e "${filename}.$(( ${MAX_ROTATIONS} + 1 ))" ]] && rm -f "${filename}.$(( ${MAX_ROTATIONS} + 1 ))" || true
+  return 0
+}
+
+mkdir-p "${LOGSDIR}" || true
+rotate_logfile "${LOGFILE}"
+echo "#[${0}]#[$(date '+%Y%m%d-%H%M%S')]#[Starting ${APP}]#" | tee -a "${LOGFILE}"
+${APP} 2>&1 | tee -a "${LOGFILE}"
+echo "#[${0}]#[$(date '+%Y%m%d-%H%M%S')]#[Exiting ${APP} and tee with pipestatus: ${PIPESTATUS[@]}]#" \
+  | tee -a "${LOGFILE}"
