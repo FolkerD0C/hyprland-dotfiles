@@ -2,6 +2,7 @@ import asyncio
 import random
 
 # from io import BytesIO, TextIOWrapper
+from os import environ as environment_variables
 from pathlib import Path
 from uuid import UUID, uuid4
 
@@ -62,7 +63,10 @@ async def hyprpaper_unload(wallpaper: Path):
 
 class HyprPaperManager:
     def __init__(
-        self, wallpaper_directory: Path, wallpaper_changing_enabled: bool = True
+        self,
+        wallpaper_directory: Path = Path(environment_variables["HOME"], "Pictures"),
+        *,
+        wallpaper_changing_enabled: bool = True,
     ) -> None:
         LOCAL_ACTIONS_LOGGER.debug(
             "Creating %r object with wallpaper_directory=%r and wallpaper_changing_enabled=%r",

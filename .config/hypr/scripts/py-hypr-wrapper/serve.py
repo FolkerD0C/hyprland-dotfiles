@@ -20,7 +20,7 @@ from local_actions.waybar_actions import (
     special_workspace_displayname,
 )
 from local_objects.timed_action import TimedAction, TimedActionManager
-from local_objects.triggerable_action import TriggerableAction
+from local_objects.triggerable_action import TriggerableAction, TriggerableActionManager
 from local_utilities.local_logging import logger_setup
 from local_utilities.mappings import create_triggerable_actions
 from local_utilities.paths import (
@@ -58,15 +58,21 @@ def __set_triggerable_actions(
 
 def __register_timed_actions() -> TimedActionManager:
     logging.info("Registering timed actions")
-    timed_action_manager = TimedActionManager(
-        TimedAction("hyprpaper_setter", 10, __hyprpaper_manager.set_wallpapers)
+    return TimedActionManager(
+        [TimedAction("hyprpaper_setter", 10, __hyprpaper_manager.set_wallpapers)]
     )
-    return timed_action_manager
+
+
+def __register_triggerable_actions(
+    actions: Dict[str, TriggerableActionManager]
+) -> TriggerableActionManager:
+    logging.info("Registering triggerable actions")
+    return TriggerableActionManager(actions)
 
 
 def setup(
     debug_mode,
-) -> Tuple[HyprEvents, TimedActionManager, Dict[str, TriggerableAction]]:
+) -> Tuple[HyprEvents, TimedActionManager, TriggerableActionManager]:
     global __hyprpaper_manager
     logger_setup(
         logfile=PY_HYPR_WRAPPER_DAEMON_LOG,
@@ -81,7 +87,8 @@ def setup(
     timed_action_manager = __register_timed_actions()
     triggerable_actions = create_triggerable_actions()
     triggerable_actions = __set_triggerable_actions(triggerable_actions)
-    return (hypr_event_listener, timed_action_manager, triggerable_actions)
+    triggerable_action_manager = __register_triggerable_actions(triggerable_actions)
+    return (hypr_event_listener, timed_action_manager, triggerable_action_manager)
 
 
 def create_lock():
@@ -93,11 +100,11 @@ def create_lock():
 
 def main():
     create_lock()
-    hypr_event_listener, timed_action_manager, triggerable_actions = setup(
+    hypr_event_listener, timed_action_manager, triggerable_action_manager = setup(
         "--debug" in sys_argv
     )
     py_hypr_wrapper_daemon = Daemon(
-        timed_action_manager, hypr_event_listener, triggerable_actions
+        timed_action_manager, hypr_event_listener, triggerable_action_manager
     )
     exit_code = asyncio.run(py_hypr_wrapper_daemon.start_daemon())
     logging.info("===Stopping application===")

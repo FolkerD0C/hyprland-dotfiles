@@ -1,5 +1,5 @@
 import asyncio
-from typing import Callable, Dict, List
+from typing import Callable, Dict, List, Set
 from uuid import UUID, uuid4
 
 from local_utilities.constants import LOGGING_TRACE_LEVEL
@@ -74,8 +74,17 @@ class TimedAction:
 
 
 class TimedActionManager:
-    def __init__(self, *timed_actions: List[TimedAction]):
+    def __init__(self, timed_actions: List[TimedAction] = []):
         self.__timed_actions: List[TimedAction] = timed_actions
+        self.__async_lock: asyncio.Lock = asyncio.Lock()
+
+    @property
+    def timed_actions(self) -> List[TimedAction]:
+        return self.__timed_actions
+
+    async def add_action(self, action: TimedAction) -> None:
+        async with self.__async_lock:
+            self.__timed_actions.append(action)
 
     async def tick_indefinitely(self): # needs logging
         SLEEP_TASK_NAME: str = "asyncio_sleep_1"
@@ -87,19 +96,21 @@ class TimedActionManager:
                     not_waiting_on.append(pending_task_name)
             for runnable_task_name in not_waiting_on:
                 del waiting_on[runnable_task_name]
-            awaitable_actions = [
-                asyncio.create_task(
-                    timed_action.secondly_tick(), name=str(timed_action)
+            pending: Set[asyncio.Task] | None = None
+            async with self.__async_lock:
+                awaitable_actions = [
+                    asyncio.create_task(
+                        timed_action.secondly_tick(), name=str(timed_action)
+                    )
+                    for timed_action in self.__timed_actions
+                    if str(timed_action) not in waiting_on
+                ]
+                sleep_task = asyncio.create_task(asyncio.sleep(1), name=SLEEP_TASK_NAME)
+                _, pending = await asyncio.wait(
+                    [*awaitable_actions, sleep_task],
+                    return_when=asyncio.ALL_COMPLETED,
+                    timeout=1,
                 )
-                for timed_action in self.__timed_actions
-                if str(timed_action) not in waiting_on
-            ]
-            sleep_task = asyncio.create_task(asyncio.sleep(1), name=SLEEP_TASK_NAME)
-            _, pending = await asyncio.wait(
-                [*awaitable_actions, sleep_task],
-                return_when=asyncio.ALL_COMPLETED,
-                timeout=1,
-            )
             if not pending or (
                 len(pending) == 1 and list(pending)[0].get_name() == SLEEP_TASK_NAME
             ):

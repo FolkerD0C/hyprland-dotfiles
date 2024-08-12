@@ -8,7 +8,7 @@ from local_utilities.local_logging import LOCAL_IPC_LOGGER
 from local_utilities.paths import PY_HYPR_WRAPPER_IPC_SOCKET
 
 
-class PyHyprWrapperListenerListener:
+class PyHyprWrapperListener:
     def __init__(
         self,
         request_handler: Awaitable[LocalIPCResponse],
