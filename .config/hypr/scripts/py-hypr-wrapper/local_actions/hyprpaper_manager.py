@@ -1,7 +1,6 @@
 import asyncio
 import random
 
-# from io import BytesIO, TextIOWrapper
 from os import environ as environment_variables
 from pathlib import Path
 from uuid import UUID, uuid4
@@ -11,54 +10,59 @@ from local_utilities.constants import LOGGING_TRACE_LEVEL
 from local_utilities.local_logging import LOCAL_ACTIONS_LOGGER
 from local_utilities.wrappers import logged, logged_async
 
-# DUMMY_STDOUT_STREAM: TextIOWrapper = TextIOWrapper(BytesIO())
-# DUMMY_STDERR_STREAM: TextIOWrapper = TextIOWrapper(BytesIO())
-
 
 async def hyprpaper_preload(wallpaper_candidate: Path):
-    await asyncio.create_subprocess_exec(
+    proc_exec = await asyncio.create_subprocess_exec(
         "hyprctl",
         "hyprpaper",
         "preload",
         str(wallpaper_candidate),
-        # stdout=DUMMY_STDOUT_STREAM,
-        # stderr=DUMMY_STDERR_STREAM,
+        stdout=asyncio.subprocess.PIPE,
+        stderr=asyncio.subprocess.PIPE,
     )
-    # for line in DUMMY_STDOUT_STREAM:
-    #     logging.log(TRACE_LVL, "Got line for stdout of hyprpaper_preload: %r", line)
-    # DUMMY_STDOUT_STREAM.flush()
-    # for line in DUMMY_STDERR_STREAM:
-    #     logging.log(TRACE_LVL, "Got line for stderr of hyprpaper_preload: %r", line)
-    # DUMMY_STDERR_STREAM.flush()
+    stdout, stderr = await proc_exec.communicate()
+    LOCAL_ACTIONS_LOGGER.log(
+        LOGGING_TRACE_LEVEL, "stdout of 'hyprpaper preload': %r", stdout.decode()
+    )
+    LOCAL_ACTIONS_LOGGER.log(
+        LOGGING_TRACE_LEVEL, "stderr of 'hyprpaper preload': %r", stderr.decode()
+    )
 
 
 async def hyprpaper_wallpaper(monitor: str, wallpaper_candidate: Path):
-    await asyncio.create_subprocess_exec(
-        "hyprctl", "hyprpaper", "wallpaper", f"{monitor},{str(wallpaper_candidate)}"
+    proc_exec = await asyncio.create_subprocess_exec(
+        "hyprctl",
+        "hyprpaper",
+        "wallpaper",
+        f"{monitor},{str(wallpaper_candidate)}",
+        stdout=asyncio.subprocess.PIPE,
+        stderr=asyncio.subprocess.PIPE,
     )
-    # for line in DUMMY_STDOUT_STREAM:
-    #     logging.log(TRACE_LVL, "Got line for stdout of hyprpaper_wallpaper: %r", line)
-    # DUMMY_STDOUT_STREAM.flush()
-    # for line in DUMMY_STDERR_STREAM:
-    #     logging.log(TRACE_LVL, "Got line for stderr of hyprpaper_wallpaper: %r", line)
-    # DUMMY_STDERR_STREAM.flush()
+    stdout, stderr = await proc_exec.communicate()
+    LOCAL_ACTIONS_LOGGER.log(
+        LOGGING_TRACE_LEVEL, "stdout of 'hyprpaper wallpaper': %r", stdout.decode()
+    )
+    LOCAL_ACTIONS_LOGGER.log(
+        LOGGING_TRACE_LEVEL, "stderr of 'hyprpaper wallpaper': %r", stderr.decode()
+    )
 
 
 async def hyprpaper_unload(wallpaper: Path):
-    await asyncio.create_subprocess_exec(
+    proc_exec = await asyncio.create_subprocess_exec(
         "hyprctl",
         "hyprpaper",
         "unload",
         str(wallpaper),
-        # stdout=DUMMY_STDOUT_STREAM,
-        # stderr=DUMMY_STDERR_STREAM,
+        stdout=asyncio.subprocess.PIPE,
+        stderr=asyncio.subprocess.PIPE,
     )
-    # for line in DUMMY_STDOUT_STREAM:
-    #     logging.log(TRACE_LVL, "Got line for stdout of hyprpaper_unload: %r", line)
-    # DUMMY_STDOUT_STREAM.flush()
-    # for line in DUMMY_STDERR_STREAM:
-    #     logging.log(TRACE_LVL, "Got line for stderr of hyprpaper_unload: %r", line)
-    # DUMMY_STDERR_STREAM.flush()
+    stdout, stderr = await proc_exec.communicate()
+    LOCAL_ACTIONS_LOGGER.log(
+        LOGGING_TRACE_LEVEL, "stdout of 'hyprpaper unload': %r", stdout.decode()
+    )
+    LOCAL_ACTIONS_LOGGER.log(
+        LOGGING_TRACE_LEVEL, "stderr of 'hyprpaper unload': %r", stderr.decode()
+    )
 
 
 class HyprPaperManager:
