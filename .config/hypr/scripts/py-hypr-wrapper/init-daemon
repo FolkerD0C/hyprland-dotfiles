@@ -41,7 +41,7 @@ if [[ ! -f ${VENV_ACTIVATE_SCRIPT} ]]; then
   exit ${install_result}
 fi
 
-DAEMON_FLAGS="$([[ -v ${PY_HYPR_WRAPPER_DAEMON_DEBUG} ]] && echo -n '--debug' || echo -n '')"
+DAEMON_FLAGS="$([[ -n ${PY_HYPR_WRAPPER_DAEMON_DEBUG:-} ]] && echo -n '--debug' || echo -n '')"
 
 . "${VENV_ACTIVATE_SCRIPT}"
 notify_user "Starting py-hypr-wrapper"

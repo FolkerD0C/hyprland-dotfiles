@@ -27,7 +27,7 @@ function rotate_logfile() {
   return 0
 }
 
-mkdir-p "${LOGSDIR}" || true
+mkdir -p "${LOGSDIR}" || true
 rotate_logfile "${LOGFILE}"
 echo "#[${0}]#[$(date '+%Y%m%d-%H%M%S')]#[Starting ${APP}]#" | tee -a "${LOGFILE}"
 ${APP} 2>&1 | tee -a "${LOGFILE}"
