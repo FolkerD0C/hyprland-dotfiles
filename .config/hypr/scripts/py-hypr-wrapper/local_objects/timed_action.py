@@ -88,7 +88,7 @@ class TimedActionManager:
 
     async def tick_indefinitely(self): # needs logging
         SLEEP_TASK_NAME: str = "asyncio_sleep_1"
-        waiting_on: Dict[str, asyncio.Task] = set()
+        waiting_on: Dict[str, asyncio.Task] = dict()
         while True:
             not_waiting_on: List[str] = []
             for pending_task_name in waiting_on:
