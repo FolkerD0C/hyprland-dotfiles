@@ -1,8 +1,0 @@
-#!/bin/bash
-
-INITIAL_HYPRLOCK_RAN_FILE="/tmp/hyprland-initial-hyprlock-for-${USER}.ran"
-
-if [[ ! -e ${INITIAL_HYPRLOCK_RAN_FILE} ]]; then
-  touch "${INITIAL_HYPRLOCK_RAN_FILE}"
-  ~/.config/hypr/scripts/rotated-tee hyprlock &
-fi
