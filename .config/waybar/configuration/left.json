@@ -15,7 +15,7 @@
         "disable-scroll": true,
         "format": "<span size=\"125%\">{icon} <sup>{windows}</sup></span>",
         "persistent-workspaces": {
-            "*": 7
+            "*": 5
         },
         "format-icons": {
             "1": "󰎦",
